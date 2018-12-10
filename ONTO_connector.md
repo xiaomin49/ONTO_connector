@@ -16,7 +16,7 @@
 ### Login
 - 1.1 使用ONTO作为provider扫描dapp方提供的二维码（[登陆二维码标准](#登陆二维码标准)）
 - 1.2 ONTO获取到callback url和验证用的msg
-- 2 对msg签名，调用登陆方法（[登陆接口](#Login_接口)）
+- 2 对msg签名，调用登陆方法（[登陆接口](#登陆接口)）
 - 3 dapp后端验证签名后返回验证结果
 
 ### Invoke SC
@@ -50,7 +50,7 @@
 | message   | string  | 随机生成，用于校验身份  |
 | url   | string  |  用户扫码签名后发送的URL |
 
-### Login 接口
+### 登陆接口
 method: post
 
 ```
