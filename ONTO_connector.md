@@ -37,18 +37,18 @@
     "type": "ontid", // or account
     "method": "post",
     "message": "HgigFdfwf",
-    "callback": "http://127.0.0.1:80/login/callback"
+    "url": "http://127.0.0.1:80/login/callback"
   }
 }
 ```
 
 |字段|类型|定义|
 | :---| :---| :---|
-|action   |  string |  定义此二维码的功能，登录设定为"Login"，调用智能合约设定为"invoke" |
-|type   |  string |  定义是使用ontid登录设定为"i"，钱包地址登录设定为"a" |
-|method   | string  | post  |
-|message   | string  | 随机生成，用于校验身份  |
-|url   | string  |  用户扫码签名后发送的URL |
+| action   |  string |  定义此二维码的功能，登录设定为"Login"，调用智能合约设定为"invoke" |
+| type   |  string |  定义是使用ontid登录设定为"ontid"，钱包地址登录设定为"account" |
+| method   | string  | post  |
+| message   | string  | 随机生成，用于校验身份  |
+| url   | string  |  用户扫码签名后发送的URL |
 
 ### Login 接口
 method: post
@@ -67,9 +67,10 @@ method: post
 
 |字段|类型|定义|
 | :---| :---| :---|
-| action | string | 定义此二维码的功能，登录设定为"user_login"，调用智能合约设定为"user_invoke" |
+| action | string | 定义此二维码的功能，登录设定为"login"，调用智能合约设定为"invoke" |
 | params | string | 方法要求的参数 |
 | user | string | 用户做签名的账户，比如用户的ontid或者钱包地址 |
+| message   | string  | 随机生成，用于校验身份  |
 | publickey | string | 账户公钥 |
 | signature  |  string |  用户签名 |
 
@@ -114,8 +115,8 @@ method: post
 
 |字段|类型|定义|
 | :---| :---| :---|
-|action   |  string |  定义此二维码的功能，登录设定为"Login"，调用智能合约设定为"invoke" |
-|login_statu   |  boolean |   |
-|method   | string  | post  |
-|url   | string  |  用户扫码签名后发送的URL |
-|signedTx   |  string |  dapp后台根据用户钱包构建的调用智能合约交易 |
+| action   |  string |  定义此二维码的功能，登录设定为"Login"，调用智能合约设定为"invoke" |
+| login_statu   |  boolean |   |
+| method   | string  | post  |
+| url   | string  |  用户扫码签名后发送的URL |
+| signedTx   |  string |  dapp后台根据用户钱包构建的调用智能合约交易 |
