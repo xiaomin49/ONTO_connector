@@ -12,45 +12,47 @@
 - 3 ONTID附带的认证存在本地，由于意外等原因，用户丢失身份认证的情况经常发生。
 - 4 ONTID是一长串字符，难以区分，无法辨识。
 
-为了适应即将到来的dAPP开放平台，加强ONTID和用户的绑定，方便用户管理自己的身份信息，我们对ONTID在注册，管理，授权，认证这四个方面进行了重新设计
+为了推广ONT ID，加强ONTID和用户的绑定，方便用户管理自己的身份信息，我们引入ONT ID Layer2， 并对ONT ID在注册，管理，授权，认证这四个方面进行了重新规划设计。
 
-## 注册ONTID
-目前支持ONT的钱包都只有Account，没有ONTID，而ONTID和Account的差别只是在于是否在主网上做注册，基于Cynao Mobile组件提供的功能，在合作方钱包中有两个方案完成ONTID注册。
+## ONT ID Layer2
 
-- 1 用户可以将钱包上已有的Account注册为ONTID
-- 2 用户在钱包上创建新Account的时候可以选择是否注册成ONTID
+ONT ID Layer2 在本体Blockchain 基础上，封装了ONT ID的注册、Verifiable Claim的去中心化存储职能，便于dAPP集成ONT ID和使用ONT ID。
 
-#### 已有Account的注册ONTID
-此情况适用于在provider（合作方钱包）内有资金Account的用户，他们可以几乎无感地完成ONTID注册。
+在架构设计上 ONT ID Layer2 连接了去中心化存储，也同时使用了中心化系统的高效机制。 
 
-下图描述了在provider（合作方钱包）中登录需要ONTID登录的dApp时的流程
+## 一 注册ONT ID
 
-![ontid-login](./img/ontid_login.jpg)
+#### 什么时候触发注册ONT ID? 
 
-从step 4 可以看到，当该用户的Account不是ONTID的时候，可以去主网上注册成为ONTID。
+和ONTO不同，生态合作伙伴钱包（麦子、Onion等）只有在场景中才触发ONT ID的生成 ，比如用户在Candy Box中需要KYC，所有触发ONT ID注册。 
 
-在这个过程中用户首先被提示其Account尚未注册成ONTID，选择注册后，对注册ONTID的智能合约调用进行签名即完成注册。
+#### 注册体系设计
 
-#### 创建Account的时候注册ONTID
-此情况适用于在provider（合作方钱包）没有本体的资金Account的用户(不管是麦子或者bitkeep都支持多条公链，其中有大量用户使用的是其他公链。)在创建Account的时候可以选择注册成ONTID。
+一切让生态合作伙伴钱包简单，仅需要一个指令发给Cyano Mobile即可完成注册。
 
-## 管理ONTID
-从实践过程中看来，大部分provider为了让用户更易用，注册流程一般是
-- 1 注册的时候备份助记词。
-- 2 注册后的备份是导出WIF格式的私钥。
+![ontid-register](http://assets.processon.com/chart_image/5c1efaa9e4b05e0d063bf702.png)
 
-为了降低用户理解的难度，ONTID的管理采用同样的方式。
+* **Cyano Mobile的职责:**  帮助钱包方生成私钥和Keystore；
+* **Layer2的职责:**  代付钱包方的ONT ID的上链费用，需要验证钱包方 ONT ID签名
 
-同时provider给已经注册完成的ONTID增加一个已注册的标示，方便用户识别。
+#### ONT ID存储和显示规范
 
-例如可以在下图标示出的1处或2处增加ONTID的标示。
-<img src="./img/ontid_logo.png" style="width-max:300px"/>
+生态合作伙伴钱包使用ONT ID Keystore存储规范存储在客户端；
 
-#### 扩展
-EOS的体系内，注册新钱包的时候就会强制要求注册一个EOS账户（目前主流方案是5RMB一个，微信支付），
-这个账号是一个由数字和字母构成的12位的字符串，便于用户记忆。
+注册成功后，生态合作伙伴钱包需要显示ONT ID的WIF私钥和 Keystore信息。 
 
-我们可以开发ONS服务（Ontology Name Service），在每个ONTID注册的时候都映射一个短域名，这样方便用户记忆，短域名相比ONTID，在用户看来更有账号的意义，有利于对用户进行本体身份体系的教育。
+
+## 二 管理ONT ID
+
+ONT ID 的管理包括：
+
+* **导入**，支持WIF 和 KeyStore两个方式导入，Cyano Mobile 支持这两种方式的库；
+* **查询**，用户随时可以查询自己的ONT ID，客户端钱包需要随时显示用户的ONT ID，便于用户查询。
+* **导出**，用户可以导出ONT ID Keystore和WIF私钥。 
+
+
+
+
 
 ## ONTID 授权
 ONTID授权和Account授权完全相同，此处不赘述。
