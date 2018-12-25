@@ -38,7 +38,7 @@ ONT ID Layer2（ONTPass）增加对同一身份开通多个ONT ID的控制，避
 
 一切让生态合作伙伴钱包简单，仅需要一个指令发给Cyano Mobile即可完成注册。
 
-![register](http://assets.processon.com/chart_image/5c1efaa9e4b05e0d063bf702.png)
+![register](./img/register.png)
 
 * **Cyano Mobile的职责:**  帮助钱包方生成私钥和Keystore；
 * **签名服务的职责:**  代付钱包方的ONT ID的上链费用，构造Payer签名
