@@ -30,13 +30,42 @@ ONT ID Layer2（ONTPass）增加对同一身份开通多个ONT ID的控制，避
 
 和ONTO不同，生态合作伙伴钱包（麦子、Onion等）会集成业务场景，在场景中才触发ONT ID的生成 ，比如用户在Candy Box中需要KYC，所有触发ONT ID注册。全流程设计如下：
 
-![](./img/architecture.png) 
+![](./img/register.png) 
 
 * **Cyano Mobile的职责:**  帮助钱包方生成私钥和Keystore；
 * **签名服务的职责:**  代付钱包方的ONT ID的上链费用，构造Payer签名
 
-//TODO
-对于Cyano Mobile提供一个显示规范
+#### API_1 发起用户认证并开通ONT ID
+```
+	{
+		"action":"registerONTID",
+		"version":"v1.0.0";
+		"params":{
+			"payer":"";
+		}
+	}
+```
+
+返回
+```
+	{
+		"action": "registerONTID",
+		"version": "v1.0.0"
+		"error": 0,
+		"desc": "SUCCESS",
+		"result": {
+			"ontid":"",
+			"registerOntidHex":"",
+			"keystore":""	
+		}
+	}
+```
+
+#### 页面显示规范
+
+![输入密码](./img/ui-register.jpg) 
+
+![填入KYC](./img/ui-kyc1.jpg) 
 
 ## ONT ID 授权
 
@@ -46,12 +75,47 @@ ONT ID授权指的是把用户已经获得的认证，授权给场景方，比�
 
 * **Cyano Mobile的职责:** 需要提供Claim的加密、解密；
 
-//TODO
-提供一个显示规范
+#### API接口_2 授权
+```
+{
+	"action": "authorization",
+	"version": "v1.0.0",
+	"params": {
+		"toONTID": "",
+		"callbackURL": ""，
+		"AuthContexts": {
+			"M": [
+			],
+			"O": [
+				"ClaimContext": "claim:idm_passport_authentication",
+				"ClaimContext": "claim:idm_idcard_authentication",
+				"ClaimContext": "claim:idm_dl_authentication",
+				"ClaimContext": "claim:st_dl_authentication",
+			],
+			"OMaxNum": 1,
+			"OMinNum": 1
+		}
+	}
+}
+```
 
-#### ONT ID存储和显示规范
+返回
+```
+	{
+		"action": "authorization",
+		"version": "v1.0.0"
+		"error": 0,
+		"desc": "SUCCESS",
+		"result": {	
+		}
+	}
+```
 
+#### 页面显示规范
 
+![授权第一步-输入密码](./img/ui-password.jpg) 
+
+![授权第二步-确认](./img/ui-kyc1.jpg) 
 
 ## 管理ONT ID
 
