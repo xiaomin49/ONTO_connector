@@ -9,7 +9,7 @@
 需要在ONTPass平台注册， 具体参考[>> ONTPass 认证需求方注册API](http://pro-docs.ont.io/#/docs-cn/ontpass/ontpass-auth?id=step-3-ontpass%E5%B9%B3%E5%8F%B0%E6%B3%A8%E5%86%8C)
 
 全流程设计如下：
-![](http://assets.processon.com/chart_image/5c1efaa9e4b05e0d063bf702.png) 
+![](./img/ui-register.jpg)
 
 
 #### API_1 发起用户认证并开通ONT ID
@@ -65,7 +65,7 @@
 
 ONT ID授权指的是把用户已经获得的认证，授权给场景方，比如在CandyBox场景中，用户需要将授权信息提供给Candy项目方，才可以获得Candy。 流程是这样的：
 
-![](http://assets.processon.com/chart_image/5c262c6ce4b07361e6ab2009.png) 
+![](./img/ui-auth.jpg)
 
 
 #### API接口_4 授权
