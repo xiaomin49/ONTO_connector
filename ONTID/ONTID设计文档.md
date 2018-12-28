@@ -13,6 +13,9 @@
 - 4 ONTID是一长串字符，难以区分，无法辨识。
 
 为了便于推广ONT ID，方便用户管理自己的身份信息，我们引入ONT ID Layer2， 并对ONT ID在注册，管理，授权，认证这四个方面进行了重新规划设计。
+- 1 用户只要保护好自己ONTID的私钥，就可以随时管理自己的身份认证。
+- 2 不再受到ONTO或者单一设备的限制，一处认证，到处可用。
+- 3 降低生态合作伙伴钱包的接入难度，生态合作伙伴钱包无感接入，也没有app内保存用户数据的担忧。
 
 ## ONT ID Layer2
 
@@ -27,28 +30,28 @@ ONT ID Layer2（ONTPass）增加对同一身份开通多个ONT ID的控制，避
 
 和ONTO不同，生态合作伙伴钱包（麦子、Onion等）会集成业务场景，在场景中才触发ONT ID的生成 ，比如用户在Candy Box中需要KYC，所有触发ONT ID注册。全流程设计如下：
 
-![](http://assets.processon.com/chart_image/5c208f5fe4b0b71ee507dac7.png) 
-
-//TODO
-提供一个显示规范
-
-## 注册ONT ID
-
-#### 注册体系设计
-
-一切让生态合作伙伴钱包简单，仅需要一个指令发给Cyano Mobile即可完成注册。
-
-![register](./img/register.png)
+![](./img/architecture.png) 
 
 * **Cyano Mobile的职责:**  帮助钱包方生成私钥和Keystore；
 * **签名服务的职责:**  代付钱包方的ONT ID的上链费用，构造Payer签名
 
-#### ONT ID存储和显示规范
+//TODO
+对于Cyano Mobile提供一个显示规范
 
-生态合作伙伴钱包使用ONT ID Keystore存储规范存储在客户端；
+## ONT ID 授权
+
+ONT ID授权指的是把用户已经获得的认证，授权给场景方，比如在CandyBox场景中，用户需要将授权信息提供给Candy项目方，才可以获得Candy。 流程是这样的：
+
+![](./img/auth.png) 
+
+* **Cyano Mobile的职责:** 需要提供Claim的加密、解密；
 
 //TODO
 提供一个显示规范
+
+#### ONT ID存储和显示规范
+
+
 
 ## 管理ONT ID
 
@@ -56,40 +59,21 @@ ONT ID 的管理包括：
 
 * **导入**，支持WIF 和 KeyStore两个方式导入，Cyano Mobile 支持这两种方式的库；
 * **查询**，生态合作伙伴钱包随时显示ONT ID的地址，并在输入密码的情况下，显示WIF私钥和 Keystore信息。 
-
-## ONT ID 认证
-
-只有ONTO提供了身份认证功能，身份认证全部存储在本地，用户要使用自己的身份就被局限在ONTO中，管理难度很大。根据目前的dApp开放策略，结合[ONTPASS](https://developer.ont.io/ontpass/introduction)进行身份管理，所有的身份认证将会加密存储于ONT ID Layer2连接的存储，配合上一个身份管理dApp，可以实现以下目标：
-
-- 1 用户只要保护好自己ONTID的私钥，就可以随时管理自己的身份认证。
-- 2 不再受到ONTO或者单一设备的限制，一处认证，到处可用。
-- 3 降低生态合作伙伴钱包的接入难度，生态合作伙伴钱包无感接入，也没有app内保存用户数据的担忧。
-
-#### DApp内完成身份认证流程
-
-<img src="./img/ontpasssupport.jpg" style="width-max:300px"/>
-
-以下是ONT ID Layer2（ONTPass）需要提供的接口：
-
-* **登录验证** ONT ID Layer2（ONTPass）提供一个登录验证接口，钱包方传入ONT ID及签名，ONTPass返回用户的Claims 信息；具体可以参考[这里](http://pro-docs.ont.io/#/docs-cn/ontpass/ONTTA?id=%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8)
-
-* **获取新的认证**   钱包方连接ONTPass进行新的身份认证，新的认证用的链外结算，钱包方需要提前注册ONT ID并注册到ONTPass, 具体可以参考[这里](http://pro-docs.ont.io/#/docs-cn/ontpass/ONTTA?id=%E6%A6%82%E8%BF%B0)
-
-## ONT ID 授权
-
-ONT ID授权指的是把用户已经获得的认证，授权给场景方，比如在CandyBox场景中，用户需要将授权信息提供给Candy项目方，才可以获得Candy。 流程是这样的：
-
-![ontid-auth](http://assets.processon.com/chart_image/5c20885ce4b0bcd70c453a32.png)
-
-* **Cyano Mobile的职责:** 需要提供Claim的加密、解密；
+* **管理**，生态合作伙伴钱包使用ONT ID Keystore存储规范存储在客户端；
 
 //TODO
 提供一个显示规范
 
 
-## 五 ONTO的改造
+
+## ONTO的改造
 
 * ONT ID导入支持WIF；
 * Claim默认存储到ONTPass，DropBox作为辅助选项；
 * 集成Cyano Mobile，实现加密，解密；
 * 授权环节，兼容Claim存储在本地和ONTPass，两种情况。
+
+
+## ONT ID Layer2（ONTPass）设计：
+
+* **登录验证** ONT ID Layer2（ONTPass）提供一个登录验证接口，钱包方传入ONT ID及签名，ONTPass返回用户的Claims 信息；具体可以参考[这里](http://pro-docs.ont.io/#/docs-cn/ontpass/ONTTA?id=%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8)
