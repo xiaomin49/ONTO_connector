@@ -17,19 +17,15 @@
 - 2 不再受到ONTO或者单一设备的限制，一处认证，到处可用。
 - 3 降低生态合作伙伴钱包的接入难度，生态合作伙伴钱包无感接入，也没有app内保存用户数据的担忧。
 
-## ONT ID Layer2
 
-ONT ID Layer2 在本体Blockchain 基础上，封装了ONT ID的注册、Verifiable Claim的去中心化存储职能，便于dAPP集成ONT ID和使用ONT ID。
-在架构设计上 ONT ID Layer2 连接了去中心化存储，也同时使用了中心化系统的高效机制。 
 
-ONT ID Layer2（ONTPass）增加对同一身份开通多个ONT ID的控制，避免刷羊毛的产生。
+## 一、场景触发注册ONT ID全流程
 
-> 解决方案：TrustAnchor侧需要增加控制重复注册机制。
+和ONTO不同，生态合作伙伴钱包（麦子、Onion等）会集成业务场景，在场景中才触发ONT ID的生成 ，比如用户在Candy Box中需要KYC，所有触发ONT ID注册。
 
-## 场景触发注册ONT ID全流程
+在使用之前需要在ONTPass平台注册， 具体参考[>> ONTPass 认证需求方注册API](http://pro-docs.ont.io/#/docs-cn/ontpass/ontpass-auth?id=step-3-ontpass%E5%B9%B3%E5%8F%B0%E6%B3%A8%E5%86%8C)
 
-和ONTO不同，生态合作伙伴钱包（麦子、Onion等）会集成业务场景，在场景中才触发ONT ID的生成 ，比如用户在Candy Box中需要KYC，所有触发ONT ID注册。全流程设计如下：
-
+全流程设计如下：
 ![](./img/register.png) 
 
 * **Cyano Mobile的职责:**  帮助钱包方生成私钥和Keystore；
@@ -60,6 +56,22 @@ ONT ID Layer2（ONTPass）增加对同一身份开通多个ONT ID的控制，避
 		}
 	}
 ```
+#### API接口_2 KYC提交
+
+参考[>> ONTPass 全球认证服务接口定义](http://pro-docs.ont.io/#/docs-cn/ontpass/ONTTA)。
+
+#### API接口_3 收到KYC结果
+
+```
+	{
+		"action": "registerONTID",
+		"version": "v1.0.0"
+		"error": 0,
+		"desc": "SUCCESS",
+		"result": {
+		}
+	}
+```
 
 #### 页面显示规范
 
@@ -67,7 +79,8 @@ ONT ID Layer2（ONTPass）增加对同一身份开通多个ONT ID的控制，避
 
 ![填入KYC](./img/ui-kyc1.jpg) 
 
-## ONT ID 授权
+
+## 二、ONT ID 授权
 
 ONT ID授权指的是把用户已经获得的认证，授权给场景方，比如在CandyBox场景中，用户需要将授权信息提供给Candy项目方，才可以获得Candy。 流程是这样的：
 
@@ -75,15 +88,16 @@ ONT ID授权指的是把用户已经获得的认证，授权给场景方，比�
 
 * **Cyano Mobile的职责:** 需要提供Claim的加密、解密；
 
-#### API接口_2 授权
+#### API接口_4 授权
 ```
 {
 	"action": "authorization",
 	"version": "v1.0.0",
 	"params": {
+        "txnID": "candybox",
 		"toONTID": "",
 		"callbackURL": ""，
-		"AuthContexts": {
+		"authContexts": {
 			"M": [
 			],
 			"O": [
@@ -111,11 +125,32 @@ ONT ID授权指的是把用户已经获得的认证，授权给场景方，比�
 	}
 ```
 
+#### API接口_5 Candy发放
+
+> 注意：以下接口为示例接口，和钱包再确认？？
+
+```
+	{
+		"action": "candybox",
+		"version": "v1.0.0"
+		"error": 0,
+		"desc": "SUCCESS",
+		"result": {
+            "ontid":"",
+            "candyType":"",
+            "amount":""
+		}
+	}
+```
+
+
+
 #### 页面显示规范
 
 ![授权第一步-输入密码](./img/ui-password.jpg) 
 
 ![授权第二步-确认](./img/ui-kyc1.jpg) 
+
 
 ## 管理ONT ID
 
@@ -138,6 +173,13 @@ ONT ID 的管理包括：
 * 授权环节，兼容Claim存储在本地和ONTPass，两种情况。
 
 
-## ONT ID Layer2（ONTPass）设计：
+## ONT ID Layer2
+
+ONT ID Layer2 在本体Blockchain 基础上，封装了ONT ID的注册、Verifiable Claim的去中心化存储职能，便于dAPP集成ONT ID和使用ONT ID。
+在架构设计上 ONT ID Layer2 连接了去中心化存储，也同时使用了中心化系统的高效机制。 
+
+ONT ID Layer2（ONTPass）增加对同一身份开通多个ONT ID的控制，避免刷羊毛的产生。
+
+> 解决方案：TrustAnchor侧需要增加控制重复注册机制。
 
 * **登录验证** ONT ID Layer2（ONTPass）提供一个登录验证接口，钱包方传入ONT ID及签名，ONTPass返回用户的Claims 信息；具体可以参考[这里](http://pro-docs.ont.io/#/docs-cn/ontpass/ONTTA?id=%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8)
