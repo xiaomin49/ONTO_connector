@@ -68,42 +68,34 @@ ONT ID授权指的是把用户已经获得的认证，授权给场景方，比�
 ![](./img/auth.png)
 
 
-#### API接口_4 授权
-```
-{
-	"action": "authorization",
-	"version": "v1.0.0",
-	"params": {
-        "txnID": "candybox",
-		"toONTID": "",
-		"callbackURL": ""，
-		"authContexts": {
-			"M": [
-			],
-			"O": [
-				"ClaimContext": "claim:idm_passport_authentication",
-				"ClaimContext": "claim:idm_idcard_authentication",
-				"ClaimContext": "claim:idm_dl_authentication",
-				"ClaimContext": "claim:st_dl_authentication",
-			],
-			"OMaxNum": 1,
-			"OMinNum": 1
-		}
-	}
-}
-```
+第一步，钱包应用需要通过页面跳转方式访问ONTPass授权服务（API-004 接口）：
+https://api.ont.network/api/v1/ontpass/auth
 
-返回
 ```
 	{
-		"action": "authorization",
-		"version": "v1.0.0"
-		"error": 0,
-		"desc": "SUCCESS",
-		"result": {	
+		"action":"auth",
+		"version":"v1.0.0";
+		"params":{
+			"seqno":"0001",
+			"from_ontid":"did:ont:Assxxxxxxxxxxxxx",
+			"to_ontid":"did:ont:Assxxxxxxxxxxxxx",
+			"redirect_uri":"http://candybox.com/",
+			"auth_templete":"v1.0.0"
 		}
+		"signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0=";
 	}
 ```
+
+| 参数         | 是否必须                                      | 说明                                     | 
+| ------------ | ---------------------------------------- |  ------------------ |
+| seqno        | 是                                 |  序列号，发起方自行管理，最大12位字符和数字，不重复 |
+| from_ontid         | 是                                 |  发起方ONT ID（钱包方） |
+| to_ontid         | 是                                 |  场景方ONT ID |
+| redirect_uri         | 是                                 |  场景方接受地址 |
+| auth_templete         | 是                                 | 授权模板编号，用于明确授权方授权需求，具体参考ONTPass定义 |
+| signature         | 是                                 |  对整个Param进行签名，使用from_ontid的私钥按照标准的ECDSA算法签名。  |
+
+
 
 #### API接口_5 Candy发放
 
