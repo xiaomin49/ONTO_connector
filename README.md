@@ -58,8 +58,6 @@
 
 ![输入密码](./img/ui-register.jpg) 
 
-![填入KYC](./img/ui-kyc1.jpg) 
-
 
 ## 二、授权并获取Candy
 
@@ -115,13 +113,6 @@ https://api.ont.network/api/v1/ontpass/auth
 	}
 ```
 
-
-
-#### 页面显示规范
-
-![授权第一步-输入密码](./img/ui-password.jpg) 
-
-![授权第二步-确认](./img/ui-kyc1.jpg) 
 
 
 ## ONT ID管理要求
