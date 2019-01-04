@@ -6,37 +6,15 @@
 ## 一、KYC及注册ONT ID全流程
 
 
-需要在ONTPass平台注册， 具体参考[>> ONTPass 认证需求方注册API](http://pro-docs.ont.io/#/docs-cn/ontpass/ontpass-auth?id=step-3-ontpass%E5%B9%B3%E5%8F%B0%E6%B3%A8%E5%86%8C)
+钱包应用需要在ONTPass平台注册， 具体参考[>> ONTPass 认证需求方注册API](https://pro-docs.ont.io/#/docs-cn/ontpass/ontpass-auth)
 
 全流程设计如下：
 ![](./img/register.png)
 
 
-#### API_1 发起用户认证并开通ONT ID
-```
-	{
-		"action":"registerONTID",
-		"version":"v1.0.0";
-		"params":{
-			"payer":"";
-		}
-	}
-```
+#### 关键SDK接口说明
 
-返回
-```
-	{
-		"action": "registerONTID",
-		"version": "v1.0.0"
-		"error": 0,
-		"desc": "SUCCESS",
-		"result": {
-			"ontid":"",
-			"registerOntidHex":"",
-			"keystore":""	
-		}
-	}
-```
+
 #### API接口_2 KYC提交
 
 参考[>> ONTPass 全球认证服务接口定义](http://pro-docs.ont.io/#/docs-cn/ontpass/ONTTA)。
@@ -46,7 +24,8 @@
 ```
 	{
 		"action": "registerONTID",
-		"version": "v1.0.0"
+		"version": "v1.0.0",
+		"ONT ID":"did:ont:Assxxxxxxxxxxxxx",
 		"error": 0,
 		"desc": "SUCCESS",
 		"result": {
@@ -72,32 +51,35 @@ https://api.ont.network/api/v1/ontpass/auth
 ```
 	{
 		"action":"auth",
-		"version":"v1.0.0";
+		"version":"v1.0.0",
 		"params":{
 			"seqno":"0001",
-			"from_ontid":"did:ont:Assxxxxxxxxxxxxx",
+			"user_ontid":"did:ont:Assxxxxxxxxxxxxx",
+			"app_ontid":"did:ont:Assxxxxxxxxxxxxx",
 			"to_ontid":"did:ont:Assxxxxxxxxxxxxx",
 			"redirect_uri":"http://candybox.com/",
-			"auth_templete":"v1.0.0"
-		}
-		"signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0=";
+			"auth_templete":"authtemplate_kyc01"
+		},
+		"app_signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0=";
+		"user_signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0=";
 	}
 ```
 
 | 参数         | 是否必须                                      | 说明                                     | 
 | ------------ | ---------------------------------------- |  ------------------ |
 | seqno        | 是                                 |  序列号，发起方自行管理，最大12位字符和数字，不重复 |
-| from_ontid         | 是                                 |  发起方ONT ID（钱包方） |
+| user_ontid         | 是                                 |  场景方ONT ID |
+| app_ontid         | 是                                 |  第三方应用ONT ID（钱包方） |
 | to_ontid         | 是                                 |  场景方ONT ID |
 | redirect_uri         | 是                                 |  场景方接受地址 |
 | auth_templete         | 是                                 | 授权模板编号，用于明确授权方授权需求，具体参考ONTPass定义 |
-| signature         | 是                                 |  对整个Param进行签名，使用from_ontid的私钥按照标准的ECDSA算法签名。  |
-
+| app_signature         | 是                                 |  应用方签名，对整个Param进行签名，使用from_ontid的私钥按照标准的ECDSA算法签名。  |
+| user_signature         | 否                                 |  用户签名，可选项。  |
 
 
 #### API接口_5 Candy发放
 
-> 注意：以下接口为示例接口，和钱包再确认？？
+> 注意：以下接口为示例接口，和钱包APP再确认？？
 
 ```
 	{
